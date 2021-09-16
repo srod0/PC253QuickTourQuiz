@@ -1,0 +1,32 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Thu Sep  9 12:34:57 2021
+
+@author: SamR
+"""
+
+import numpy as np 
+import matplotlib.pyplot as plt
+
+
+CO2_ppm_MaunaLoa = np.load("Mauna_CO2.npy")
+n_points = CO2_ppm_MaunaLoa.size
+
+days = np.arange(n_points)*14
+years = days/365
+#print (CO2_ppm_MaunaLoa)
+#print(days_list)
+#x, y =np.polyfit( days_list, CO2_ppm_MaunaLoa, 1)
+plt.title("Line graph")
+plt.xlabel("Years")
+plt.ylabel("$CO_2$ Concentraion(ppm)")
+#plt.scatter(days, CO2_ppm_MaunaLoa, color= "blue", s=10)
+#plt.plot( days_list, x*days_list + y, color= "blue", s=10)
+fit, cov = np.polyfit(days, CO2_ppm_MaunaLoa, 1, cov = True)
+
+fit_func = np.poly1d(fit)
+plt.plot (days, fit_func(days), color= "red")
+
+plt.errorbar(days, CO2_ppm_MaunaLoa, yerr = 5.0, errorevery = 20)
+plt.show()
